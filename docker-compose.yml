@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  # Kontener 1: Twoja aplikacja
+  app:
+    build: .
+    container_name: flask_devops_app
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+    depends_on:
+      - redis # Aplikacja poczeka na start Redisa
+
+  # Kontener 2: Baza danych (Wymaganie na 4.0)
+  redis:
+    image: redis:alpine
+    container_name: flask_devops_redis
+    ports:
+      - "6379:6379" # Opcjonalne, przydatne do podglądu
