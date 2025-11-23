@@ -7,7 +7,8 @@ app = Flask(__name__)
 # Łączymy się z Redisem.
 # Hostname to "redis" - tak nazwiemy usługę w docker-compose.yml
 # Docker sam rozwiąże tę nazwę na odpowiedni adres IP wewnątrz sieci.
-r = redis.Redis(host='redis', port=6379, decode_responses=True)
+redis_host = os.environ.get('REDIS_HOST', 'redis')
+r = redis.Redis(host=redis_host, port=6379, decode_responses=True)
 
 @app.route('/')
 def hello():
