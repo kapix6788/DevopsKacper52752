@@ -7,8 +7,6 @@ on:
 jobs:
   test-and-lint:
     runs-on: ubuntu-latest
-
-    # 1. Tu dodajemy usługę Redis specjalnie dla środowiska testowego GitHub Actions
     services:
       redis:
         image: redis
@@ -19,25 +17,30 @@ jobs:
           --health-retries 5
         ports:
           - 6379:6379
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-
       - name: Install dependencies
-        # Musimy zainstalować 'redis' żeby testy mogły importować bibliotekę
-        run: |
-          pip install flake8 pytest redis flask
-
+        run: pip install flake8 pytest redis flask
       - name: Lint
         run: flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
       - name: Test
-        # 2. Tutaj mówimy aplikacji: "Redis jest na localhost, nie szukaj go pod nazwą 'redis'"
         env:
           REDIS_HOST: localhost
         run: pytest
+
+  # --- NOWA CZĘŚĆ (Wymaganie 4.5) ---
+  deploy-image:
+    # Uruchom tylko jeśli testy przeszły
+    needs: test-and-lint
+    # Wywołujemy nasz reusable workflow
+    uses: ./.github/workflows/docker-publish.yml
+    with:
+      image_name: my-flask-app
+    # Przekazujemy uprawnienia (ważne!)
+    permissions:
+      contents: read
+      packages: write
