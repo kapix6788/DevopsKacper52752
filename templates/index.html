@@ -4,38 +4,16 @@
     <meta charset="UTF-8">
     <title>Aplikacja</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        h1 { color: #333; }
-        p { color: #666; }
-        .badge {
-            background-color: #28a745;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9em;
-        }
+        body { font-family: sans-serif; text-align: center; padding-top: 50px; background-color: #f0f2f5; }
+        .card { background: white; padding: 20px; border-radius: 10px; display: inline-block; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; }
+        .counter { font-size: 3em; color: #e74c3c; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Witaj w projekcie DevOps</h1>
-        <p>To jest prosty frontend wyświetlany przez Flask</p>
-        <p>Status aplikacji: <span class="badge">Działa poprawnie</span></p>
+    <div class="card">
+        <h1>Liczba odwiedzin strony:</h1>
+        <div class="counter">{{ visit_count }}</div>
     </div>
 </body>
 </html>
