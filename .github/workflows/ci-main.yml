@@ -42,3 +42,10 @@ jobs:
     permissions:
       contents: read
       packages: write
+
+  deploy-to-render:
+    needs: deploy-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Deployment
+        run: curl -X GET "${{ secrets.RENDER_DEPLOY_HOOK }}"
