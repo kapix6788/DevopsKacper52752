@@ -1,0 +1,13 @@
+services:
+  app:
+
+    build: .
+
+    container_name: apka_devops
+
+    ports:
+      - "5000:5000"
+
+    volumes:
+      - .:/app
+
