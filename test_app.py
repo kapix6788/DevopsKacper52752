@@ -13,4 +13,4 @@ def test_homepage(client):
 
     page_content = response.data.decode('utf-8')
 
-    assert "Witaj w projekcie DevOps" in page_content
+    assert "Liczba odwiedzin strony:" in page_content
