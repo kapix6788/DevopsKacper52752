@@ -7,6 +7,17 @@ on:
 jobs:
   test-and-lint:
     runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
     steps:
       - uses: actions/checkout@v4
 
@@ -19,4 +30,15 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run tests
+        env:
+          REDIS_HOST: localhost
         run: pytest
+
+  deploy-image:
+    needs: test-and-lint
+    uses: ./.github/workflows/docker-publish.yml
+    with:
+      image_name: apka-devops
+    permissions:
+      contents: read
+      packages: write
